@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -11,12 +13,12 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapGet("/houses", (HouseRepository repo) => repo.GetAll());
-app.MapPost("/houses", (HouseDto dto, HouseRepository repo) => repo.Add(dto));
-app.MapPut("/houses", (HouseDto dto, HouseRepository repo) => repo.Update(dto));
-app.MapDelete("/houses", (HouseDto dto, HouseRepository repo) => repo.Delete(dto));
+app.MapGet("/houses", (IHouseRepository repo) => repo.GetAll());
+app.MapPost("/houses", ([FromBody] HouseDto dto, IHouseRepository repo) => repo.Add(dto));
+app.MapPut("/houses", ([FromBody] HouseDto dto, IHouseRepository repo) => repo.Update(dto));
+app.MapDelete("/houses", ([FromBody] HouseDto dto, IHouseRepository repo) => repo.Delete(dto));
 
-app.MapGet("/bids", (BidRepository repo) => repo.GetAll());
-app.MapPost("/bids", (BidDto dto, BidRepository repo) => repo.Add(dto));
+app.MapGet("/bids/{houseId:int}", (int houseId, IBidRepository repo) => repo.GetAll(houseId));
+app.MapPost("/bids", ([FromBody] BidDto dto, IBidRepository repo) => repo.Add(dto));
 
 app.Run();

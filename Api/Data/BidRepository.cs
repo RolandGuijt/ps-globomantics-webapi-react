@@ -1,6 +1,6 @@
 public interface IBidRepository
 {
-    Task<List<BidDto>> GetAll();
+    Task<List<BidDto>> GetAll(int houseId);
     Task<BidDto> Add(BidDto bid);
 }
 
@@ -13,9 +13,9 @@ public class BidRepository : IBidRepository
         this.context = context;
     }
 
-    public async Task<List<BidDto>> GetAll()
+    public async Task<List<BidDto>> GetAll(int houseId)
     {
-        return await context.Bids.Select(e => e.ToDto()).ToListAsync();
+        return await context.Bids.Where(b => b.HouseId == houseId).Select(e => e.ToDto()).ToListAsync();
     }
 
     public async Task<BidDto> Add(BidDto bid)
