@@ -1,13 +1,15 @@
 import { useMemo } from "react";
-import { HouseType } from "../types/house";
+import useFetchHouses from "./useFetchHouses";
 
-const useFeaturedHouse = (allHouses: HouseType[]) => {
+const useFeaturedHouse = () => {
+  const { data, isSuccess } = useFetchHouses();
   const featuredHouse = useMemo(() => {
-    if (allHouses.length) {
-      const randomIndex = Math.floor(Math.random() * allHouses.length);
-      return allHouses[randomIndex];
+    if (!isSuccess || !data) return undefined;
+    if (data.length) {
+      const randomIndex = Math.floor(Math.random() * data.length);
+      return data[randomIndex];
     }
-  }, [allHouses]);
+  }, [data]);
 
   return featuredHouse;
 };

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import useBids from "../hooks/useBids";
+import ApiStatus from "../apiStatus";
+import useFetchBids from "../hooks/useFetchBids";
 import { HouseType } from "../types/house";
 
 type Props = {
@@ -7,20 +7,21 @@ type Props = {
 };
 
 const Bids = ({ house }: Props) => {
-  const [visible, setVisible] = useState(false);
-  const bids = visible ? useBids(house) : [];
-  if (!visible)
-    return <button onClick={(e) => setVisible(true)}>Show bids</button>;
+  const { data, isSuccess, status } = useFetchBids(house);
+
+  if (!isSuccess) return <ApiStatus status={status}></ApiStatus>;
+
   return (
     <table className="table table-sm">
       <th>Bidder</th>
       <th>Amount</th>
-      {bids.map((b) => (
-        <tr>
-          <td>{b.bidderName}</td>
-          <td>{b.amount}</td>
-        </tr>
-      ))}
+      {data &&
+        data.map((b) => (
+          <tr>
+            <td>{b.bidderName}</td>
+            <td>{b.amount}</td>
+          </tr>
+        ))}
     </table>
   );
 };

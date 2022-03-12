@@ -12,3 +12,7 @@
   border-radius: 2px;
   background-color: rgb(255, 190, 166);
 }
+
+tr {
+  cursor: pointer;
+}
