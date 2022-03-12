@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import Config from "../config";
 import { HouseType } from "../types/house";
 
@@ -11,4 +11,12 @@ const useFetchHouses = () => {
   return useQuery("houses", fetchHouses, { staleTime: 120000 });
 };
 
+const useClearHousesCache = () => {
+  const queryClient = useQueryClient();
+  return () => {
+    queryClient.invalidateQueries("houses");
+  };
+};
+
 export default useFetchHouses;
+export { useClearHousesCache };

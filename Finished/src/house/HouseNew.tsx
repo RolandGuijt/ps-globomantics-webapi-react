@@ -1,9 +1,13 @@
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import Config from "../config";
+import { useClearHousesCache } from "../hooks/useFetchHouses";
 import { HouseType } from "../types/house";
 import HouseForm from "./HouseForm";
 
 const HouseNew = () => {
+  const nav = useNavigate();
+  const clearCache = useClearHousesCache();
   const mutation = useMutation((h: HouseType) =>
     fetch(`${Config.baseApiUrl}/houses`, {
       method: "POST",
@@ -14,6 +18,12 @@ const HouseNew = () => {
     })
   );
 
+  const submitted = (house: HouseType) => {
+    mutation.mutate(house);
+    clearCache();
+    nav("/");
+  };
+
   const house: HouseType = {
     address: "",
     country: "",
@@ -23,7 +33,7 @@ const HouseNew = () => {
     photo: "",
   };
 
-  return <HouseForm house={house} submitted={(h) => mutation.mutate(h)} />;
+  return <HouseForm house={house} submitted={submitted} />;
 };
 
 export default HouseNew;
