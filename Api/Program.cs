@@ -17,11 +17,11 @@ app.UseSwaggerUI();
 app.UseCors(p => p.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
 
 app.MapGet("/houses", (IHouseRepository repo) => repo.GetAll());
-app.MapPost("/houses", ([FromBody] HouseDto dto, IHouseRepository repo) => repo.Add(dto));
-app.MapPut("/houses", ([FromBody] HouseDto dto, IHouseRepository repo) => repo.Update(dto));
-app.MapDelete("/houses", ([FromBody] HouseDto dto, IHouseRepository repo) => repo.Delete(dto));
+app.MapGet("/house/{houseId:int}", (int houseId, IHouseRepository repo) => repo.Get(houseId));
+app.MapPost("/houses", ([FromBody] HouseDetailDto dto, IHouseRepository repo) => repo.Add(dto));
+app.MapPut("/houses", ([FromBody] HouseDetailDto dto, IHouseRepository repo) => repo.Update(dto));
+app.MapDelete("/houses/{houseId:int}", (int houseId, IHouseRepository repo) => repo.Delete(houseId));
 
-app.MapGet("/bids/{houseId:int}", (int houseId, IBidRepository repo) => repo.GetAll(houseId));
 app.MapPost("/bids", ([FromBody] BidDto dto, IBidRepository repo) => repo.Add(dto));
 
 app.Run();

@@ -1,9 +1,10 @@
 public interface IHouseRepository
 {
     Task<List<HouseDto>> GetAll();
-    Task<HouseDto> Add(HouseDto house);
-    Task<HouseDto> Update(HouseDto house);
-    void Delete(HouseDto house);
+    Task<HouseDetailDto> Get(int id);
+    Task<HouseDto> Add(HouseDetailDto house);
+    Task<HouseDto> Update(HouseDetailDto house);
+    void Delete(int id);
 }
 
 public class HouseRepository : IHouseRepository
@@ -20,7 +21,13 @@ public class HouseRepository : IHouseRepository
         return await context.Houses.Select(e => e.ToDto()).ToListAsync();
     }
 
-    public async Task<HouseDto> Add(HouseDto house)
+    public async Task<HouseDetailDto> Get(int id)
+    {
+        var entity = await context.Houses.Include(h => h.Bids).SingleAsync(h => h.Id == id);
+        return entity.ToDetailDto();
+    }
+
+    public async Task<HouseDto> Add(HouseDetailDto house)
     {
         var newHouse = new HouseEntity();
         newHouse.FromDto(house);
@@ -29,7 +36,7 @@ public class HouseRepository : IHouseRepository
         return newHouse.ToDto();
     }
 
-    public async Task<HouseDto> Update(HouseDto house)
+    public async Task<HouseDto> Update(HouseDetailDto house)
     {
         var entity = await context.Houses.FindAsync(house.Id);
         if (entity == null)
@@ -39,11 +46,11 @@ public class HouseRepository : IHouseRepository
         return entity.ToDto();
     }
 
-    public async void Delete(HouseDto house)
+    public async void Delete(int id)
     {
-        var entity = await context.Houses.FindAsync(house.Id);
+        var entity = await context.Houses.FindAsync(id);
         if (entity == null)
-            throw new ArgumentException($"Trying to delete house: entity with ID {house.Id} not found.");
+            throw new ArgumentException($"Trying to delete house: entity with ID {id} not found.");
         context.Houses.Remove(entity);
         await context.SaveChangesAsync();
     }

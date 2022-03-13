@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { HouseType } from "../types/house";
+import { House } from "../types/house";
 
 type Args = {
-  house: HouseType;
-  submitted: (house: HouseType) => void;
+  house: House;
+  submitted: (house: House) => void;
 };
 
 const HouseForm = ({ house, submitted }: Args) => {
@@ -13,7 +13,8 @@ const HouseForm = ({ house, submitted }: Args) => {
     setHouseState({ ...houseState, [e.target.id]: e.target.value });
   };
 
-  const onSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onSubmit: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
     submitted(houseState);
   };
   return (
