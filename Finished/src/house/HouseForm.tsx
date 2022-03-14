@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toBase64 from "../toBase64";
 import { House } from "../types/house";
 
 type Args = {
@@ -13,10 +14,22 @@ const HouseForm = ({ house, submitted }: Args) => {
     setHouseState({ ...houseState, [e.target.id]: e.target.value });
   };
 
-  const onSubmit: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+  const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
     submitted(houseState);
   };
+
+  const onFileSelected = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    e.target.files &&
+      e.target.files[0] &&
+      setHouseState({
+        ...houseState,
+        photo: await toBase64(e.target.files[0]),
+      });
+  };
+
   return (
     <form className="mt-2">
       <div className="form-group">
@@ -62,6 +75,18 @@ const HouseForm = ({ house, submitted }: Args) => {
           value={houseState.price}
           onChange={onChange}
         />
+      </div>
+      <div className="form-group">
+        <label htmlFor="image">Image</label>
+        <input
+          type="file"
+          id="image"
+          className="form-control"
+          onChange={onFileSelected}
+        />
+      </div>
+      <div>
+        <img src={houseState.photo}></img>
       </div>
       <button
         className="btn btn-primary mt-2"

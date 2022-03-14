@@ -42,6 +42,7 @@ public class HouseRepository : IHouseRepository
         if (entity == null)
             throw new ArgumentException($"Trying to update house: entity with ID {house.Id} not found.");
         entity.FromDto(house);
+        context.Entry(entity).State = EntityState.Modified;
         await context.SaveChangesAsync();
         return entity.ToDto();
     }

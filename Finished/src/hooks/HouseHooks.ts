@@ -51,9 +51,9 @@ const useUpdateHouse = () => {
         body: JSON.stringify(h),
       }),
     {
-      onSuccess: () => {
+      onSuccess: (resp, house) => {
         queryClient.invalidateQueries("houses");
-        nav("/");
+        nav(`/house/${house.id}`);
       },
     }
   );

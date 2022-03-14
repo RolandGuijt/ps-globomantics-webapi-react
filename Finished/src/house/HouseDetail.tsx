@@ -19,6 +19,7 @@ const HouseDetail = () => {
   const OnDeleteClick = () => {
     if (confirm("Are you sure?")) deleteHouseMutation.mutate(data);
   };
+
   return (
     <div>
       <div className="row mt-2">
@@ -29,7 +30,7 @@ const HouseDetail = () => {
       </div>
       <div className="row">
         <div className="col-md-7">
-          <img src={`/images/${data.photo}.jpeg`} alt="House" />
+          <img src={data.photo} alt="House pic" />
         </div>
         <div className="col-md-5">
           <p className="price">${data.price}</p>

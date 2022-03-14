@@ -5,6 +5,7 @@ public class HouseEntity
     public string? Country { get; set; }
     public string? Description { get; set; }
     public int Price { get; set; }
+    public string? Photo { get; set; }
     public List<BidEntity> Bids { get; set; } = new List<BidEntity>();
 
     public HouseDto ToDto()
@@ -14,7 +15,7 @@ public class HouseEntity
 
     public HouseDetailDto ToDetailDto()
     {
-        return new HouseDetailDto(Id, Address, Country, Description, Price, 
+        return new HouseDetailDto(Id, Address, Country, Description, Price, Photo,
             Bids.Select(b => new BidDto(b.Id, b.HouseId, b.Bidder, b.Amount)));
     }
 
@@ -24,5 +25,6 @@ public class HouseEntity
         Country = dto.Country;
         Description = dto.Description;
         Price = dto.Price;
+        Photo = dto.Photo;
     }
 }
