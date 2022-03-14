@@ -14,6 +14,12 @@ const HouseForm = ({ house, submitted }: Args) => {
     setHouseState({ ...houseState, [e.target.id]: e.target.value });
   };
 
+  const onChangeDescription: React.ChangeEventHandler<HTMLTextAreaElement> = (
+    e
+  ) => {
+    setHouseState({ ...houseState, description: e.target.value });
+  };
+
   const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
     submitted(houseState);
@@ -43,7 +49,7 @@ const HouseForm = ({ house, submitted }: Args) => {
           onChange={onChange}
         />
       </div>
-      <div className="form-group">
+      <div className="form-group mt-2">
         <label htmlFor="country">Country</label>
         <input
           type="text"
@@ -54,18 +60,17 @@ const HouseForm = ({ house, submitted }: Args) => {
           onChange={onChange}
         />
       </div>
-      <div className="form-group">
+      <div className="form-group mt-2">
         <label htmlFor="description">Description</label>
-        <input
-          type="text"
+        <textarea
           id="description"
           className="form-control"
           placeholder="Description"
           value={houseState.description}
-          onChange={onChange}
+          onChange={onChangeDescription}
         />
       </div>
-      <div className="form-group">
+      <div className="form-group mt-2">
         <label htmlFor="price">Price</label>
         <input
           type="number"
@@ -76,7 +81,7 @@ const HouseForm = ({ house, submitted }: Args) => {
           onChange={onChange}
         />
       </div>
-      <div className="form-group">
+      <div className="form-group mt-2">
         <label htmlFor="image">Image</label>
         <input
           type="file"
@@ -85,7 +90,7 @@ const HouseForm = ({ house, submitted }: Args) => {
           onChange={onFileSelected}
         />
       </div>
-      <div>
+      <div className="mt-2">
         <img src={houseState.photo}></img>
       </div>
       <button

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ApiStatus from "../apiStatus";
+import { currencyFormatter } from "../config";
 import { useFetchHouses } from "../hooks/HouseHooks";
 import { House } from "../types/house";
 
@@ -16,20 +17,26 @@ const HouseList = () => {
 
   return (
     <div>
-      <div className="row">
+      <div className="row mb-2">
         <h5 className="themeFontColor text-center">
           Houses currently on the market
         </h5>
-        <hr />
       </div>
       <table className="table table-hover">
+        <thead>
+          <tr>
+            <th>Address</th>
+            <th>Country</th>
+            <th>Asking Price</th>
+          </tr>
+        </thead>
         <tbody>
           {data &&
             data.map((h) => (
               <tr key={h.id} onClick={() => setActive(h)}>
                 <td>{h.address}</td>
                 <td>{h.country}</td>
-                <td>{h.price}</td>
+                <td>{currencyFormatter.format(h.price)}</td>
               </tr>
             ))}
         </tbody>
