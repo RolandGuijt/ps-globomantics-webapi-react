@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MiniValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
@@ -17,11 +18,38 @@ app.UseSwaggerUI();
 app.UseCors(p => p.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
 
 app.MapGet("/houses", (IHouseRepository repo) => repo.GetAll());
-app.MapGet("/house/{houseId:int}", (int houseId, IHouseRepository repo) => repo.Get(houseId));
-app.MapPost("/houses", ([FromBody] HouseDetailDto dto, IHouseRepository repo) => repo.Add(dto));
-app.MapPut("/houses", ([FromBody] HouseDetailDto dto, IHouseRepository repo) => repo.Update(dto));
+
+app.MapGet("/house/{houseId:int}", async (int houseId, IHouseRepository repo) => 
+{
+    var house = await repo.Get(houseId);
+    if (house == null)
+        return Results.Problem($"House with ID {houseId} not found.", statusCode: 404);
+    return Results.Ok(house);
+}).ProducesProblem(404);
+
+app.MapPost("/houses", async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
+{
+    if (!MiniValidator.TryValidate(dto, out var errors))
+        return Results.ValidationProblem(errors);
+    var newHouse = await repo.Add(dto);
+    return Results.Created($"/house/{newHouse.Id}", newHouse);
+}).ProducesValidationProblem().Produces<HouseDetailDto>(StatusCodes.Status201Created);
+
+app.MapPut("/houses", async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
+{       
+    if (!MiniValidator.TryValidate(dto, out var errors))
+        return Results.ValidationProblem(errors);
+    return Results.Ok(await repo.Update(dto));
+}).ProducesValidationProblem().Produces<HouseDetailDto>(StatusCodes.Status200OK);
+
 app.MapDelete("/houses/{houseId:int}", (int houseId, IHouseRepository repo) => repo.Delete(houseId));
 
-app.MapPost("/bids", ([FromBody] BidDto dto, IBidRepository repo) => repo.Add(dto));
+app.MapPost("/bids", async ([FromBody] BidDto dto, IBidRepository repo) => 
+{
+    if (!MiniValidator.TryValidate(dto, out var errors))
+        return Results.ValidationProblem(errors);
+    var newBid = await repo.Add(dto);
+    return Results.Created($"/houses/{newBid.HouseId}", newBid);
+}).ProducesValidationProblem().Produces<BidDto>(StatusCodes.Status201Created);;
 
 app.Run();

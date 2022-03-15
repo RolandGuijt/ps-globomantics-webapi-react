@@ -3,6 +3,16 @@ import { House } from "./../types/house";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Config from "../config";
 
+const handleErrors = async (response: Response) => {
+  if (!response.ok) {
+    //fetch api doesn't reject the promise for a non-200 status code so we have to do it:
+    if (response.status === 400)
+      //todo: find out a way to show this in the UI
+      throw new Error(`Validation errors: ${response.json()}`);
+    throw new Error(`Error code: ${response.status} ${response.statusText}`);
+  }
+};
+
 const useFetchHouses = () => {
   return useQuery("houses", async (): Promise<House[]> => {
     const rsp = await fetch(`${Config.baseApiUrl}/houses`);
@@ -30,7 +40,8 @@ const useAddHouse = () => {
         body: JSON.stringify(h),
       }),
     {
-      onSuccess: () => {
+      onSuccess: (resp) => {
+        handleErrors(resp);
         queryClient.invalidateQueries("houses");
         nav("/");
       },
@@ -41,8 +52,8 @@ const useAddHouse = () => {
 const useUpdateHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
-  return useMutation(
-    (h: House) =>
+  return useMutation<Response, Error, House>(
+    (h) =>
       fetch(`${Config.baseApiUrl}/houses`, {
         method: "PUT",
         headers: {
@@ -52,6 +63,7 @@ const useUpdateHouse = () => {
       }),
     {
       onSuccess: (resp, house) => {
+        handleErrors(resp);
         queryClient.invalidateQueries("houses");
         nav(`/house/${house.id}`);
       },
@@ -68,7 +80,8 @@ const useDeleteHouse = () => {
         method: "DELETE",
       }),
     {
-      onSuccess: () => {
+      onSuccess: (resp) => {
+        handleErrors(resp);
         queryClient.invalidateQueries("houses");
         nav("/");
       },

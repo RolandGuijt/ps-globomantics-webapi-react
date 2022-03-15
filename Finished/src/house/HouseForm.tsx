@@ -95,9 +95,7 @@ const HouseForm = ({ house, submitted }: Args) => {
       </div>
       <button
         className="btn btn-primary mt-2"
-        disabled={
-          !houseState.address || !houseState.country || !houseState.price
-        }
+        disabled={!houseState.country || !houseState.price}
         onClick={onSubmit}
       >
         Submit

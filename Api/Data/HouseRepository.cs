@@ -1,7 +1,7 @@
 public interface IHouseRepository
 {
     Task<List<HouseDto>> GetAll();
-    Task<HouseDetailDto> Get(int id);
+    Task<HouseDetailDto?> Get(int id);
     Task<HouseDto> Add(HouseDetailDto house);
     Task<HouseDto> Update(HouseDetailDto house);
     void Delete(int id);
@@ -21,9 +21,11 @@ public class HouseRepository : IHouseRepository
         return await context.Houses.Select(e => e.ToDto()).ToListAsync();
     }
 
-    public async Task<HouseDetailDto> Get(int id)
+    public async Task<HouseDetailDto?> Get(int id)
     {
-        var entity = await context.Houses.Include(h => h.Bids).SingleAsync(h => h.Id == id);
+        var entity = await context.Houses.Include(h => h.Bids).SingleOrDefaultAsync(h => h.Id == id);
+        if (entity == null)
+            return null;
         return entity.ToDetailDto();
     }
 

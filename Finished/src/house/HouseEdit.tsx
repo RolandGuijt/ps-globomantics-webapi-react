@@ -12,6 +12,8 @@ const HouseEdit = () => {
   const updateHouseMutation = useUpdateHouse();
 
   if (!isSuccess) return <ApiStatus status={status} />;
+  if (updateHouseMutation.isError)
+    return <div>{updateHouseMutation.error.message}</div>;
   return (
     <HouseForm
       house={data}
