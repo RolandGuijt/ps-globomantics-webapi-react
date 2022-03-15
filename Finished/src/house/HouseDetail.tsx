@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useDeleteHouse, useFetchHouse } from "../hooks/HouseHooks";
 import ApiStatus from "../apiStatus";
 import { currencyFormatter } from "../config";
+import defaultImage from "./defaultPhoto";
 
 const HouseDetail = () => {
   const { id } = useParams();
@@ -25,7 +26,11 @@ const HouseDetail = () => {
       <div className="row">
         <div className="col-6">
           <div className="row">
-            <img className="img-fluid" src={data.photo} alt="House pic" />
+            <img
+              className="img-fluid"
+              src={data.photo ? data.photo : defaultImage}
+              alt="House pic"
+            />
           </div>
           <div className="row mt-3">
             <div className="col-2">
