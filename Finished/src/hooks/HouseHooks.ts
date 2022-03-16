@@ -2,16 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { House } from "./../types/house";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Config from "../config";
-
-const handleErrors = async (response: Response) => {
-  if (!response.ok) {
-    //fetch api doesn't reject the promise for a non-200 status code so we have to do it:
-    if (response.status === 400)
-      //todo: find out a way to show this in the UI
-      throw new Error(`Validation errors: ${response.json()}`);
-    throw new Error(`Error code: ${response.status} ${response.statusText}`);
-  }
-};
+import axios, { AxiosError, AxiosResponse } from "axios";
+import Problem from "../types/problem";
 
 const useFetchHouses = () => {
   return useQuery("houses", async (): Promise<House[]> => {
@@ -41,7 +33,6 @@ const useAddHouse = () => {
       }),
     {
       onSuccess: (resp) => {
-        handleErrors(resp);
         queryClient.invalidateQueries("houses");
         nav("/");
       },
@@ -52,18 +43,10 @@ const useAddHouse = () => {
 const useUpdateHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
-  return useMutation<Response, Error, House>(
-    (h) =>
-      fetch(`${Config.baseApiUrl}/houses`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(h),
-      }),
+  return useMutation<AxiosResponse, AxiosError<Problem>, House>(
+    (h) => axios.put(`${Config.baseApiUrl}/houses`, h),
     {
       onSuccess: (resp, house) => {
-        handleErrors(resp);
         queryClient.invalidateQueries("houses");
         nav(`/house/${house.id}`);
       },
@@ -81,7 +64,6 @@ const useDeleteHouse = () => {
       }),
     {
       onSuccess: (resp) => {
-        handleErrors(resp);
         queryClient.invalidateQueries("houses");
         nav("/");
       },

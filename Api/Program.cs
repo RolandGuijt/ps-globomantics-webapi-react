@@ -17,7 +17,7 @@ app.UseSwaggerUI();
 
 app.UseCors(p => p.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
 
-app.MapGet("/houses", (IHouseRepository repo) => repo.GetAll());
+app.MapGet("/houses", (IHouseRepository repo) => repo.GetAll()).Produces<HouseDto[]>(StatusCodes.Status200OK);
 
 app.MapGet("/house/{houseId:int}", async (int houseId, IHouseRepository repo) => 
 {
@@ -25,7 +25,7 @@ app.MapGet("/house/{houseId:int}", async (int houseId, IHouseRepository repo) =>
     if (house == null)
         return Results.Problem($"House with ID {houseId} not found.", statusCode: 404);
     return Results.Ok(house);
-}).ProducesProblem(404);
+}).ProducesProblem(404).Produces<HouseDto>(StatusCodes.Status200OK);
 
 app.MapPost("/houses", async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
 {

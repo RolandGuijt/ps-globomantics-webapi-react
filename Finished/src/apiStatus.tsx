@@ -5,7 +5,7 @@ type Args = {
 const ApiStatus = ({ status }: Args) => {
   switch (status) {
     case "error":
-      return <div>API Error</div>;
+      return <div>Error communicating with the data backend</div>;
     case "idle":
       return <div>Idle</div>;
     case "loading":
