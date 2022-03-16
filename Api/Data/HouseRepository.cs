@@ -4,7 +4,7 @@ public interface IHouseRepository
     Task<HouseDetailDto?> Get(int id);
     Task<HouseDto> Add(HouseDetailDto house);
     Task<HouseDto> Update(HouseDetailDto house);
-    void Delete(int id);
+    Task Delete(int id);
 }
 
 public class HouseRepository : IHouseRepository
@@ -49,7 +49,7 @@ public class HouseRepository : IHouseRepository
         return entity.ToDto();
     }
 
-    public async void Delete(int id)
+    public async Task Delete(int id)
     {
         var entity = await context.Houses.FindAsync(id);
         if (entity == null)

@@ -17,7 +17,8 @@ app.UseSwaggerUI();
 
 app.UseCors(p => p.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
 
-app.MapGet("/houses", (IHouseRepository repo) => repo.GetAll()).Produces<HouseDto[]>(StatusCodes.Status200OK);
+app.MapGet("/houses", (IHouseRepository repo) => repo.GetAll())
+    .Produces<HouseDto[]>(StatusCodes.Status200OK);
 
 app.MapGet("/house/{houseId:int}", async (int houseId, IHouseRepository repo) => 
 {
@@ -39,10 +40,18 @@ app.MapPut("/houses", async ([FromBody] HouseDetailDto dto, IHouseRepository rep
 {       
     if (!MiniValidator.TryValidate(dto, out var errors))
         return Results.ValidationProblem(errors);
+    if (await repo.Get(dto.Id) == null)
+        return Results.Problem($"House with Id {dto.Id} not found", statusCode: 404);
     return Results.Ok(await repo.Update(dto));
-}).ProducesValidationProblem().Produces<HouseDetailDto>(StatusCodes.Status200OK);
+}).ProducesValidationProblem().ProducesProblem(404).Produces<HouseDetailDto>(StatusCodes.Status200OK);
 
-app.MapDelete("/houses/{houseId:int}", (int houseId, IHouseRepository repo) => repo.Delete(houseId));
+app.MapDelete("/houses/{houseId:int}", async (int houseId, IHouseRepository repo) => 
+{
+    if (await repo.Get(houseId) == null)
+        return Results.Problem($"House with Id {houseId} not found", statusCode: 404);
+    await repo.Delete(houseId);
+    return Results.Ok();
+}).ProducesProblem(404).Produces(StatusCodes.Status200OK);
 
 app.MapPost("/bids", async ([FromBody] BidDto dto, IBidRepository repo) => 
 {

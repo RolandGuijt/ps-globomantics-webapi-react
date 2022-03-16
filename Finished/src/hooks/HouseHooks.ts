@@ -6,31 +6,22 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import Problem from "../types/problem";
 
 const useFetchHouses = () => {
-  return useQuery("houses", async (): Promise<House[]> => {
-    const rsp = await fetch(`${Config.baseApiUrl}/houses`);
-    return rsp.json();
-  });
+  return useQuery<House[], AxiosError>("houses", () =>
+    axios.get(`${Config.baseApiUrl}/houses`).then((resp) => resp.data)
+  );
 };
 
 const useFetchHouse = (id: number) => {
-  return useQuery(["houses", id], async (): Promise<House> => {
-    const rsp = await fetch(`${Config.baseApiUrl}/house/${id}`);
-    return rsp.json();
-  });
+  return useQuery<House, AxiosError>(["houses", id], () =>
+    axios.get(`${Config.baseApiUrl}/house/${id}`).then((resp) => resp.data)
+  );
 };
 
 const useAddHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
-  return useMutation(
-    (h: House) =>
-      fetch(`${Config.baseApiUrl}/houses`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(h),
-      }),
+  return useMutation<AxiosResponse, AxiosError, House>(
+    (h) => axios.post(`${Config.baseApiUrl}/houses`, h),
     {
       onSuccess: (resp) => {
         queryClient.invalidateQueries("houses");
@@ -57,11 +48,8 @@ const useUpdateHouse = () => {
 const useDeleteHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
-  return useMutation(
-    (h: House) =>
-      fetch(`${Config.baseApiUrl}/houses/${h.id}`, {
-        method: "DELETE",
-      }),
+  return useMutation<AxiosResponse, AxiosError, House>(
+    (h) => axios.delete(`${Config.baseApiUrl}/houses/${h.id}`),
     {
       onSuccess: (resp) => {
         queryClient.invalidateQueries("houses");
