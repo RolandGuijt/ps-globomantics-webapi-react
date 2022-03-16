@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { currencyFormatter } from "../config";
 import { useAddBid } from "../hooks/BidHooks";
 import { Bid } from "../types/bid";
 import { House } from "../types/house";
@@ -42,7 +43,7 @@ const Bids = ({ house }: Props) => {
                 house.bids.map((b) => (
                   <tr key={b.id}>
                     <td>{b.bidder}</td>
-                    <td>{b.amount}</td>
+                    <td>{currencyFormatter.format(b.amount)}</td>
                   </tr>
                 ))}
             </tbody>
