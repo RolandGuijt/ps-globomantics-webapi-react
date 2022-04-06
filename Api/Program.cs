@@ -26,7 +26,7 @@ app.MapGet("/house/{houseId:int}", async (int houseId, IHouseRepository repo) =>
     if (house == null)
         return Results.Problem($"House with ID {houseId} not found.", statusCode: 404);
     return Results.Ok(house);
-}).ProducesProblem(404).Produces<HouseDto>(StatusCodes.Status200OK);
+}).ProducesProblem(404).Produces<HouseDetailDto>(StatusCodes.Status200OK);
 
 app.MapPost("/houses", async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
 {
