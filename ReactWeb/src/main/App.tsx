@@ -13,10 +13,10 @@ function App() {
       <div className="container">
         <Header subtitle="Providing houses all over the world" />
         <Routes>
+          <Route path="/" element={<HouseList />}></Route>
           <Route path="/house/new" element={<HouseNew />}></Route>
           <Route path="/house/edit/:id" element={<HouseEdit />}></Route>
           <Route path="/house/:id" element={<HouseDetail />}></Route>
-          <Route path="/" element={<HouseList />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

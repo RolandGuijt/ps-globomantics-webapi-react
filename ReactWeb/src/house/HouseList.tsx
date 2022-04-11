@@ -9,10 +9,6 @@ const HouseList = () => {
   const nav = useNavigate();
   const { data, status, isSuccess } = useFetchHouses();
 
-  const setActive = (house: House) => {
-    nav(`/house/${house.id}`);
-  };
-
   if (!isSuccess) return <ApiStatus status={status}></ApiStatus>;
 
   return (
@@ -32,8 +28,8 @@ const HouseList = () => {
         </thead>
         <tbody>
           {data &&
-            data.map((h) => (
-              <tr key={h.id} onClick={() => setActive(h)}>
+            data.map((h: House) => (
+              <tr key={h.id} onClick={() => nav(`/house/${h.id}`)}>
                 <td>{h.address}</td>
                 <td>{h.country}</td>
                 <td>{currencyFormatter.format(h.price)}</td>

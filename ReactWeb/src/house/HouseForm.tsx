@@ -10,16 +10,6 @@ type Args = {
 const HouseForm = ({ house, submitted }: Args) => {
   const [houseState, setHouseState] = useState(house);
 
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setHouseState({ ...houseState, [e.target.id]: e.target.value });
-  };
-
-  const onChangeDescription: React.ChangeEventHandler<HTMLTextAreaElement> = (
-    e
-  ) => {
-    setHouseState({ ...houseState, description: e.target.value });
-  };
-
   const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
     submitted(houseState);
@@ -44,48 +34,52 @@ const HouseForm = ({ house, submitted }: Args) => {
           type="text"
           className="form-control"
           placeholder="Address"
-          id="address"
           value={houseState.address}
-          onChange={onChange}
+          onChange={(e) =>
+            setHouseState({ ...houseState, address: e.target.value })
+          }
         />
       </div>
       <div className="form-group mt-2">
         <label htmlFor="country">Country</label>
         <input
           type="text"
-          id="country"
           className="form-control"
           placeholder="Country"
           value={houseState.country}
-          onChange={onChange}
+          onChange={(e) =>
+            setHouseState({ ...houseState, country: e.target.value })
+          }
         />
       </div>
       <div className="form-group mt-2">
         <label htmlFor="description">Description</label>
         <textarea
-          id="description"
           className="form-control"
           placeholder="Description"
           value={houseState.description}
-          onChange={onChangeDescription}
+          onChange={(e) =>
+            setHouseState({ ...houseState, description: e.target.value })
+          }
         />
       </div>
       <div className="form-group mt-2">
         <label htmlFor="price">Price</label>
         <input
           type="number"
-          id="price"
           className="form-control"
           placeholder="Price"
           value={houseState.price}
-          onChange={onChange}
+          onChange={(e) =>
+            setHouseState({ ...houseState, price: parseInt(e.target.value) })
+          }
         />
       </div>
       <div className="form-group mt-2">
         <label htmlFor="image">Image</label>
         <input
-          type="file"
           id="image"
+          type="file"
           className="form-control"
           onChange={onFileSelected}
         />

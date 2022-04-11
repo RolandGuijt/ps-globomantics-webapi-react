@@ -37,7 +37,7 @@ const useAddHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
   return useMutation<AxiosResponse, AxiosError, House>(
-    (h: House) => axios.post(`${Config.baseApiUrl}/houses`, h),
+    (h) => axios.post(`${Config.baseApiUrl}/houses`, h),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("houses");
@@ -51,9 +51,9 @@ const useUpdateHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
   return useMutation<AxiosResponse, AxiosError<Problem>, House>(
-    (h: House) => axios.put(`${Config.baseApiUrl}/houses`, h),
+    (h) => axios.put(`${Config.baseApiUrl}/houses`, h),
     {
-      onSuccess: (_: AxiosResponse, house: House) => {
+      onSuccess: (_, house) => {
         queryClient.invalidateQueries("houses");
         nav(`/house/${house.id}`);
       },
@@ -65,7 +65,7 @@ const useDeleteHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
   return useMutation<AxiosResponse, AxiosError, House>(
-    (h: House) => axios.delete(`${Config.baseApiUrl}/houses/${h.id}`),
+    (h) => axios.delete(`${Config.baseApiUrl}/houses/${h.id}`),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("houses");
