@@ -1,4 +1,4 @@
-import Bids from "./Bids";
+import Bids from "../bids/Bids";
 import { Link, useParams } from "react-router-dom";
 import { useDeleteHouse, useFetchHouse } from "../hooks/HouseHooks";
 import ApiStatus from "../apiStatus";

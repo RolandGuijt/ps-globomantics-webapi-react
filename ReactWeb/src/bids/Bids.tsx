@@ -18,10 +18,6 @@ const Bids = ({ house }: Props) => {
   };
   const [bid, setBid] = useState<Bid>(emptyBid);
 
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setBid({ ...bid, [e.target.id]: e.target.value });
-  };
-
   const onBidSubmitClick = () => {
     addBidMutation.mutate(bid);
     setBid(emptyBid);
@@ -57,7 +53,7 @@ const Bids = ({ house }: Props) => {
             className="h-100"
             type="text"
             value={bid.bidder}
-            onChange={onChange}
+            onChange={(e) => setBid({ ...bid, bidder: e.target.value })}
             placeholder="Bidder"
           ></input>
         </div>
@@ -67,7 +63,9 @@ const Bids = ({ house }: Props) => {
             className="h-100"
             type="number"
             value={bid.amount}
-            onChange={onChange}
+            onChange={(e) =>
+              setBid({ ...bid, amount: parseInt(e.target.value) })
+            }
             placeholder="Amount"
           ></input>
         </div>
