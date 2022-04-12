@@ -42,7 +42,8 @@ app.MapPut("/houses", async ([FromBody] HouseDetailDto dto, IHouseRepository rep
         return Results.ValidationProblem(errors);
     if (await repo.Get(dto.Id) == null)
         return Results.Problem($"House with Id {dto.Id} not found", statusCode: 404);
-    return Results.Ok(await repo.Update(dto));
+    var updatedHouse = await repo.Update(dto);
+    return Results.Ok(updatedHouse);
 }).ProducesValidationProblem().ProducesProblem(404).Produces<HouseDetailDto>(StatusCodes.Status200OK);
 
 app.MapDelete("/houses/{houseId:int}", async (int houseId, IHouseRepository repo) => 
