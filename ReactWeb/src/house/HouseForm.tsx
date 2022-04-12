@@ -8,7 +8,7 @@ type Args = {
 };
 
 const HouseForm = ({ house, submitted }: Args) => {
-  const [houseState, setHouseState] = useState(house);
+  const [houseState, setHouseState] = useState({ ...house });
 
   const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();

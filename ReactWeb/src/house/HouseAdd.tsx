@@ -2,7 +2,7 @@ import { useAddHouse } from "../hooks/HouseHooks";
 import { House } from "../types/house";
 import HouseForm from "./HouseForm";
 
-const HouseNew = () => {
+const HouseAdd = () => {
   const addHouseMutation = useAddHouse();
 
   const house: House = {
@@ -23,4 +23,4 @@ const HouseNew = () => {
   );
 };
 
-export default HouseNew;
+export default HouseAdd;

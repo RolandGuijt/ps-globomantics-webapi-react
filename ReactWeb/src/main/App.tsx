@@ -3,7 +3,7 @@ import "./app.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HouseList from "../house/HouseList";
 import HouseEdit from "../house/HouseEdit";
-import HouseNew from "../house/HouseNew";
+import HouseAdd from "../house/HouseAdd";
 import HouseDetail from "../house/HouseDetail";
 import Header from "./Header";
 
@@ -14,7 +14,7 @@ function App() {
         <Header subtitle="Providing houses all over the world" />
         <Routes>
           <Route path="/" element={<HouseList />}></Route>
-          <Route path="/house/new" element={<HouseNew />}></Route>
+          <Route path="/house/new" element={<HouseAdd />}></Route>
           <Route path="/house/edit/:id" element={<HouseEdit />}></Route>
           <Route path="/house/:id" element={<HouseDetail />}></Route>
         </Routes>
