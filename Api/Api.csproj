@@ -16,7 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.*" />
-    <PackageReference Include="MiniValidation" Version="0.4.2-pre.20220306.48" />
+    <PackageReference Include="MiniValidation" Version="0.5.0-pre.20220315.50" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.*" />
   </ItemGroup>
 

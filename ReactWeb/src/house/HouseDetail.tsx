@@ -4,6 +4,7 @@ import { useDeleteHouse, useFetchHouse } from "../hooks/HouseHooks";
 import ApiStatus from "../apiStatus";
 import { currencyFormatter } from "../config";
 import defaultImage from "./defaultPhoto";
+import { useFetchBids } from "../hooks/BidHooks";
 
 const HouseDetail = () => {
   const { id } = useParams();
@@ -11,22 +12,16 @@ const HouseDetail = () => {
   const houseId = parseInt(id);
 
   const { data, status, isSuccess } = useFetchHouse(houseId);
+
   const deleteHouseMutation = useDeleteHouse();
 
   if (!isSuccess) return <ApiStatus status={status} />;
 
   if (!data) return <div>House not found.</div>;
 
-  const OnDeleteClick = () => {
-    if (confirm("Are you sure?")) deleteHouseMutation.mutate(data);
-  };
-
   return (
     <div className="row">
       <div className="col-6">
-        <div className="row">
-          <img className="img-fluid" src={data.photo} alt="House pic" />
-        </div>
         <div className="row">
           <img
             className="img-fluid"
@@ -46,7 +41,10 @@ const HouseDetail = () => {
           <div className="col-2">
             <button
               className="btn btn-danger w-100"
-              onClick={() => OnDeleteClick()}
+              onClick={() => {
+                if (window.confirm("Are you sure?"))
+                  deleteHouseMutation.mutate(data);
+              }}
             >
               Delete
             </button>

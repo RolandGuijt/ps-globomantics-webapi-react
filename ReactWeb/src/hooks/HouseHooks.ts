@@ -36,7 +36,7 @@ const useFetchHouse = (id: number) => {
 const useAddHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
-  return useMutation<AxiosResponse, AxiosError, House>(
+  return useMutation<AxiosResponse, AxiosError<Problem>, House>(
     (h) => axios.post(`${Config.baseApiUrl}/houses`, h),
     {
       onSuccess: () => {

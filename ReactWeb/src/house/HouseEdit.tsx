@@ -6,7 +6,7 @@ import HouseForm from "./HouseForm";
 
 const HouseEdit = () => {
   const { id } = useParams();
-  if (!id) return <div>Supply a house id for HouseEdit</div>;
+  if (!id) throw Error("Need a house id");
   const houseId = parseInt(id);
 
   const { data, status, isSuccess } = useFetchHouse(houseId);

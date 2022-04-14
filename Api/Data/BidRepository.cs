@@ -1,5 +1,6 @@
 public interface IBidRepository
 {
+    Task<List<BidDto>> Get(int houseId);
     Task<BidDto> Add(BidDto bid);
 }
 
@@ -12,12 +13,22 @@ public class BidRepository : IBidRepository
         this.context = context;
     }
 
-    public async Task<BidDto> Add(BidDto bid)
+    public async Task<List<BidDto>> Get(int houseId)
     {
-        var newBid = new BidEntity();
-        newBid.FromDto(bid);
-        context.Bids.Add(newBid);
+        return await context.Bids.Where(b => b.HouseId == houseId)
+            .Select(b => new BidDto(b.Id, b.HouseId, b.Bidder, b.Amount))
+            .ToListAsync();
+    }
+
+    public async Task<BidDto> Add(BidDto dto)
+    {
+        var entity = new BidEntity();
+        entity.HouseId = dto.HouseId;
+        entity.Bidder = dto.Bidder;
+        entity.Amount = dto.Amount;
+        context.Bids.Add(entity);
         await context.SaveChangesAsync();
-        return newBid.ToDto();
+        return new BidDto(entity.Id, entity.HouseId, 
+            entity.Bidder, entity.Amount);
     }
 }

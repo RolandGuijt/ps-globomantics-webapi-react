@@ -18,6 +18,7 @@ const HouseForm = ({ house, submitted }: Args) => {
   const onFileSelected = async (
     e: React.ChangeEvent<HTMLInputElement>
   ): Promise<void> => {
+    e.preventDefault();
     e.target.files &&
       e.target.files[0] &&
       setHouseState({
@@ -89,7 +90,7 @@ const HouseForm = ({ house, submitted }: Args) => {
       </div>
       <button
         className="btn btn-primary mt-2"
-        disabled={!houseState.country || !houseState.price}
+        disabled={!houseState.address || !houseState.country}
         onClick={onSubmit}
       >
         Submit

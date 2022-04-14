@@ -14,7 +14,7 @@ function App() {
         <Header subtitle="Providing houses all over the world" />
         <Routes>
           <Route path="/" element={<HouseList />}></Route>
-          <Route path="/house/new" element={<HouseAdd />}></Route>
+          <Route path="/house/add" element={<HouseAdd />}></Route>
           <Route path="/house/edit/:id" element={<HouseEdit />}></Route>
           <Route path="/house/:id" element={<HouseDetail />}></Route>
         </Routes>

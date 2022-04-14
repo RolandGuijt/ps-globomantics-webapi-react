@@ -37,7 +37,7 @@ const HouseList = () => {
             ))}
         </tbody>
       </table>
-      <Link className="btn btn-primary" to="/house/new">
+      <Link className="btn btn-primary" to="/house/add">
         Add
       </Link>
     </div>

@@ -13,8 +13,7 @@ public class HouseRepository : IHouseRepository
 
     private static HouseDetailDto EntityToDetailDto(HouseEntity e)
     {
-        return new HouseDetailDto(e.Id, e.Address, e.Country, e.Description, e.Price, e.Photo,
-            e.Bids.Select(b => new BidDto(b.Id, b.HouseId, b.Bidder, b.Amount)));
+        return new HouseDetailDto(e.Id, e.Address, e.Country, e.Description, e.Price, e.Photo);
     }
 
     private static void DtoToEntity(HouseDetailDto dto, HouseEntity e)
@@ -38,7 +37,7 @@ public class HouseRepository : IHouseRepository
 
     public async Task<HouseDetailDto?> Get(int id)
     {
-        var entity = await context.Houses.Include(h => h.Bids).SingleOrDefaultAsync(h => h.Id == id);
+        var entity = await context.Houses.SingleOrDefaultAsync(h => h.Id == id);
         if (entity == null)
             return null;
         return EntityToDetailDto(entity);
@@ -69,7 +68,7 @@ public class HouseRepository : IHouseRepository
         var entity = await context.Houses.FindAsync(id);
         if (entity == null)
             throw new ArgumentException($"Trying to delete house: entity with ID {id} not found.");
-        context.Entry(entity).State = EntityState.Deleted;
+        context.Houses.Remove(entity);
         await context.SaveChangesAsync();
     }
 }

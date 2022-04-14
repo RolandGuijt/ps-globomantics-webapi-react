@@ -54,12 +54,24 @@ app.MapDelete("/houses/{houseId:int}", async (int houseId, IHouseRepository repo
     return Results.Ok();
 }).ProducesProblem(404).Produces(StatusCodes.Status200OK);
 
-app.MapPost("/bids", async ([FromBody] BidDto dto, IBidRepository repo) => 
+app.MapGet("/house/{houseId:int}/bids", async (int houseId, 
+    IHouseRepository houseRepo, IBidRepository bidRepo) =>
 {
+    if (await houseRepo.Get(houseId) == null)
+        return Results.Problem($"House with Id {houseId} not found", statusCode: 404);
+    var bids = await bidRepo.Get(houseId);
+    return Results.Ok(bids);
+}).ProducesProblem(404).Produces(StatusCodes.Status200OK);
+
+app.MapPost("/house/{houseId:int}/bids", async (int houseId, [FromBody] BidDto dto, IBidRepository repo) => 
+{   
+    if (dto.HouseId != houseId)
+        return Results.Problem($"House Id of DTO {dto.HouseId} doesn't match with route data {houseId}", 
+            statusCode: StatusCodes.Status400BadRequest);
     if (!MiniValidator.TryValidate(dto, out var errors))
         return Results.ValidationProblem(errors);
     var newBid = await repo.Add(dto);
-    return Results.Created($"/houses/{newBid.HouseId}", newBid);
-}).ProducesValidationProblem().Produces<BidDto>(StatusCodes.Status201Created);;
+    return Results.Created($"/houses/{newBid.HouseId}/bids", newBid);
+}).ProducesValidationProblem().ProducesProblem(400).Produces<BidDto>(StatusCodes.Status201Created);;
 
 app.Run();

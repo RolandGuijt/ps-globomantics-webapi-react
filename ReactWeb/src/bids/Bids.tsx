@@ -1,6 +1,7 @@
 import { useState } from "react";
+import ApiStatus from "../apiStatus";
 import { currencyFormatter } from "../config";
-import { useAddBid } from "../hooks/BidHooks";
+import { useAddBid, useFetchBids } from "../hooks/BidHooks";
 import { Bid } from "../types/bid";
 import { House } from "../types/house";
 
@@ -9,7 +10,9 @@ type Props = {
 };
 
 const Bids = ({ house }: Props) => {
+  const { data, status, isSuccess } = useFetchBids(house.id);
   const addBidMutation = useAddBid();
+
   const emptyBid = {
     id: 0,
     houseId: house.id,
@@ -17,6 +20,8 @@ const Bids = ({ house }: Props) => {
     amount: 0,
   };
   const [bid, setBid] = useState<Bid>(emptyBid);
+
+  if (!isSuccess) return <ApiStatus status={status} />;
 
   const onBidSubmitClick = () => {
     addBidMutation.mutate(bid);
@@ -35,8 +40,8 @@ const Bids = ({ house }: Props) => {
               </tr>
             </thead>
             <tbody>
-              {house.bids &&
-                house.bids.map((b) => (
+              {data &&
+                data.map((b) => (
                   <tr key={b.id}>
                     <td>{b.bidder}</td>
                     <td>{currencyFormatter.format(b.amount)}</td>
