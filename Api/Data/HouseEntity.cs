@@ -6,5 +6,4 @@ public class HouseEntity
     public string? Description { get; set; }
     public int Price { get; set; }
     public string? Photo { get; set; }
-    public List<BidEntity> Bids { get; set; } = new List<BidEntity>();
 }

@@ -1,11 +1,11 @@
 import { AxiosError } from "axios";
 import Problem from "./types/problem";
 
-type Props = {
+type Args = {
   error: AxiosError<Problem>;
 };
 
-const ValidationSummary = ({ error }: Props) => {
+const ValidationSummary = ({ error }: Args) => {
   if (error.response?.status !== 400) return <></>;
   const errors = error.response?.data.errors;
   return (

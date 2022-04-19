@@ -1,5 +1,3 @@
-import { Bid } from "./bid";
-
 export type House = {
   id: number;
   address: string;
@@ -7,5 +5,4 @@ export type House = {
   description: string;
   price: number;
   photo: string;
-  bids: Bid[];
 };

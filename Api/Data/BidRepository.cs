@@ -4,7 +4,7 @@ public interface IBidRepository
     Task<BidDto> Add(BidDto bid);
 }
 
-public class BidRepository : IBidRepository
+public class BidRepository: IBidRepository
 {
     private readonly HouseDbContext context;
 

@@ -5,11 +5,11 @@ import { useAddBid, useFetchBids } from "../hooks/BidHooks";
 import { Bid } from "../types/bid";
 import { House } from "../types/house";
 
-type Props = {
+type Args = {
   house: House;
 };
 
-const Bids = ({ house }: Props) => {
+const Bids = ({ house }: Args) => {
   const { data, status, isSuccess } = useFetchBids(house.id);
   const addBidMutation = useAddBid();
 

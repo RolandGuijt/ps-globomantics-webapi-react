@@ -35,7 +35,7 @@ namespace Api.Migrations
 
                     b.HasIndex("HouseId");
 
-                    b.ToTable("Bids");
+                    b.ToTable("Bids", (string)null);
 
                     b.HasData(
                         new
@@ -147,7 +147,7 @@ namespace Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Houses");
+                    b.ToTable("Houses", (string)null);
 
                     b.HasData(
                         new

@@ -13,7 +13,6 @@ const HouseAdd = () => {
     price: 0,
     id: 0,
     photo: "",
-    bids: [],
   };
 
   return (
