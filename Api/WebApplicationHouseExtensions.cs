@@ -7,7 +7,8 @@ public static class WebApplicationHouseExtensions
     public static void MapHouseEndpoints(this WebApplication app)
     {
         app.MapGet("/houses", [Authorize](IHouseRepository repo) => repo.GetAll())
-            .Produces<HouseDto[]>(StatusCodes.Status200OK);
+            .Produces<HouseDto[]>(StatusCodes.Status200OK)
+            .AsBffApiEndpoint();
 
         app.MapGet("/house/{houseId:int}", async (int houseId, IHouseRepository repo) => 
         {
@@ -17,13 +18,14 @@ public static class WebApplicationHouseExtensions
             return Results.Ok(house);
         }).ProducesProblem(404).Produces<HouseDetailDto>(StatusCodes.Status200OK);
 
-        app.MapPost("/houses", async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
+        app.MapPost("/houses", [Authorize("admin")]async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
         {
             if (!MiniValidator.TryValidate(dto, out var errors))
                 return Results.ValidationProblem(errors);
             var newHouse = await repo.Add(dto);
             return Results.Created($"/house/{newHouse.Id}", newHouse);
-        }).ProducesValidationProblem().Produces<HouseDetailDto>(StatusCodes.Status201Created);
+        }).ProducesValidationProblem().Produces<HouseDetailDto>(StatusCodes.Status201Created)
+            .AsBffApiEndpoint();
 
         app.MapPut("/houses", async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
         {       
