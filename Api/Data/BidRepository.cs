@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 public interface IBidRepository
 {
     Task<List<BidDto>> Get(int houseId);

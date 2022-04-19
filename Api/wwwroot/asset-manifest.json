@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d98db773.css",
+    "main.js": "/static/js/main.dee7e1a3.js",
+    "static/media/GloboLogo.png": "/static/media/GloboLogo.23130263a019e0a1b1e8.png",
+    "index.html": "/index.html",
+    "main.d98db773.css.map": "/static/css/main.d98db773.css.map",
+    "main.dee7e1a3.js.map": "/static/js/main.dee7e1a3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d98db773.css",
+    "static/js/main.dee7e1a3.js"
+  ]
+}

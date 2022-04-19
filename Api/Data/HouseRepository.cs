@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 public interface IHouseRepository
 {
     Task<List<HouseDto>> GetAll();

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniValidation;
 
@@ -5,7 +6,7 @@ public static class WebApplicationHouseExtensions
 {
     public static void MapHouseEndpoints(this WebApplication app)
     {
-        app.MapGet("/houses", (IHouseRepository repo) => repo.GetAll())
+        app.MapGet("/houses", [Authorize](IHouseRepository repo) => repo.GetAll())
             .Produces<HouseDto[]>(StatusCodes.Status200OK);
 
         app.MapGet("/house/{houseId:int}", async (int houseId, IHouseRepository repo) => 

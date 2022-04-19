@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 public class HouseDbContext : DbContext
 {
     public HouseDbContext(DbContextOptions<HouseDbContext> options) : base(options) { }
