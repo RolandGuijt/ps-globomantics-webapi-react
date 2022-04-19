@@ -23,7 +23,9 @@ import { useEffect, useState } from "react";
 
 const useFetchHouses = () => {
   return useQuery<House[], AxiosError>("houses", () =>
-    axios.get(`${Config.baseApiUrl}/houses`).then((resp) => resp.data)
+    axios
+      .get(`${Config.baseApiUrl}/houses`, { withCredentials: true })
+      .then((resp) => resp.data)
   );
 };
 
