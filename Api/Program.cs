@@ -14,7 +14,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
         return Task.CompletedTask;
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(o => 
+    o.AddPolicy("admin", p => p.RequireClaim("role", "Admin"))
+);
 
 builder.Services.AddDbContext<HouseDbContext>(options => options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 builder.Services.AddScoped<IHouseRepository, HouseRepository>();

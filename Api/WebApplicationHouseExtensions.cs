@@ -17,7 +17,7 @@ public static class WebApplicationHouseExtensions
             return Results.Ok(house);
         }).ProducesProblem(404).Produces<HouseDetailDto>(StatusCodes.Status200OK);
 
-        app.MapPost("/houses", async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
+        app.MapPost("/houses", [Authorize("admin")]async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
         {
             if (!MiniValidator.TryValidate(dto, out var errors))
                 return Results.ValidationProblem(errors);
