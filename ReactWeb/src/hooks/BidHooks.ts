@@ -7,7 +7,7 @@ import Problem from "../types/problem";
 const useFetchBids = (houseId: number) => {
   return useQuery<Bid[], AxiosError>(["bids", houseId], () =>
     axios
-      .get(`${Config.baseApiUrl}/house/${houseId}/bids`)
+      .get(`${Config.baseApiUrl}/api/house/${houseId}/bids`)
       .then((resp) => resp.data)
   );
 };
@@ -15,7 +15,7 @@ const useFetchBids = (houseId: number) => {
 const useAddBid = () => {
   const queryClient = useQueryClient();
   return useMutation<AxiosResponse, AxiosError<Problem>, Bid>(
-    (b) => axios.post(`${Config.baseApiUrl}/house/${b.houseId}/bids`, b),
+    (b) => axios.post(`${Config.baseApiUrl}/api/house/${b.houseId}/bids`, b),
     {
       onSuccess: (resp, bid) => {
         queryClient.invalidateQueries(["bids", bid.houseId]);

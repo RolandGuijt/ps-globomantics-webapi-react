@@ -21,7 +21,7 @@ namespace Part2_TokenService
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope("confArchApi.basicAccess", "Basic access to ConfArch API")
+                new ApiScope("globoApi.basicAccess", "Basic access to Globomantics API")
             };
 
         public static IEnumerable<ApiResource> ApiResources =>
@@ -29,9 +29,10 @@ namespace Part2_TokenService
             {
                 new ApiResource
                 {
-                    Name = "confArchApi",
-                    Description = "ConfArch API",
-                    Scopes = new List<string> {"confArchApi.basicAccess" }
+                    Name = "globoApi",
+                    Description = "Globomantics API",
+                    Scopes = new List<string> {"globoApi.basicAccess" },
+                    UserClaims = new[] { "role" }
                 }
 
             };
@@ -39,39 +40,27 @@ namespace Part2_TokenService
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
-                new Client
-                {
-                    ClientId = "ExternalApiClient",
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = {"confArchApi.basicAccess"},
-                    AllowedGrantTypes = GrantTypes.ClientCredentials
-                },
-
                 // interactive client using code flow + pkce
                 new Client
                 {
-                    ClientId = "confarchweb",
-                    ClientName = "ConfArch MVC Client",
+                    ClientId = "globoweb",
+                    ClientName = "Globomantics Web",
                     RequireConsent = true,
-                   
 
                     ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     },
 
-                    RedirectUris = {"https://localhost:4000/signin-oidc"},
-                    PostLogoutRedirectUris = {"https://localhost:4000"},
+                    RedirectUris = {"https://localhost:3500/signin-oidc"},
+                    PostLogoutRedirectUris = {"https://localhost:3500"},
 
                     AllowedScopes =
                     {
                         "openid",
                         "roles",
                         "profile",
-                        "confArchApi.basicAccess",
+                        "globoApi.basicAccess",
                     },
                     
                     AlwaysIncludeUserClaimsInIdToken = true,

@@ -23,13 +23,13 @@ import { useEffect, useState } from "react";
 
 const useFetchHouses = () => {
   return useQuery<House[], AxiosError>("houses", () =>
-    axios.get(`${Config.baseApiUrl}/houses`).then((resp) => resp.data)
+    axios.get(`${Config.baseApiUrl}/api/houses`).then((resp) => resp.data)
   );
 };
 
 const useFetchHouse = (id: number) => {
   return useQuery<House, AxiosError>(["houses", id], () =>
-    axios.get(`${Config.baseApiUrl}/house/${id}`).then((resp) => resp.data)
+    axios.get(`${Config.baseApiUrl}/api/house/${id}`).then((resp) => resp.data)
   );
 };
 
@@ -37,7 +37,7 @@ const useAddHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
   return useMutation<AxiosResponse, AxiosError<Problem>, House>(
-    (h) => axios.post(`${Config.baseApiUrl}/houses`, h),
+    (h) => axios.post(`${Config.baseApiUrl}/api/houses`, h),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("houses");
@@ -51,7 +51,7 @@ const useUpdateHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
   return useMutation<AxiosResponse, AxiosError<Problem>, House>(
-    (h) => axios.put(`${Config.baseApiUrl}/houses`, h),
+    (h) => axios.put(`${Config.baseApiUrl}/api/houses`, h),
     {
       onSuccess: (_, house) => {
         queryClient.invalidateQueries("houses");
@@ -65,7 +65,7 @@ const useDeleteHouse = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
   return useMutation<AxiosResponse, AxiosError, House>(
-    (h) => axios.delete(`${Config.baseApiUrl}/houses/${h.id}`),
+    (h) => axios.delete(`${Config.baseApiUrl}/api/houses/${h.id}`),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("houses");
