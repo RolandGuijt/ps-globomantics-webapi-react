@@ -4,7 +4,9 @@ import registerServiceWorker from "./registerServiceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import React from "react";
+import axios from "axios";
 
+axios.defaults.withCredentials = true;
 const queryClient = new QueryClient();
 ReactDOM.render(
   <React.StrictMode>
