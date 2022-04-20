@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllersWithViews();
 //builder.Services.AddCors();
 
 builder.Services.AddBff(o => o.ManagementBasePath = "/account")
