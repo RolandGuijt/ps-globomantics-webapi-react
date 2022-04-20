@@ -10,7 +10,7 @@ public static class WebApplicationHouseExtensions
             .Produces<HouseDto[]>(StatusCodes.Status200OK)
             .AsBffApiEndpoint();
 
-        app.MapGet("/house/{houseId:int}", async (int houseId, IHouseRepository repo) => 
+        app.MapGet("/house/{houseId:int}", [Authorize]async (int houseId, IHouseRepository repo) => 
         {
             var house = await repo.Get(houseId);
             if (house == null)
@@ -27,7 +27,7 @@ public static class WebApplicationHouseExtensions
         }).ProducesValidationProblem().Produces<HouseDetailDto>(StatusCodes.Status201Created)
             .AsBffApiEndpoint();
 
-        app.MapPut("/houses", async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
+        app.MapPut("/houses", [Authorize]async ([FromBody] HouseDetailDto dto, IHouseRepository repo) => 
         {       
             if (!MiniValidator.TryValidate(dto, out var errors))
                 return Results.ValidationProblem(errors);
@@ -37,7 +37,7 @@ public static class WebApplicationHouseExtensions
             return Results.Ok(updatedHouse);
         }).ProducesValidationProblem().ProducesProblem(404).Produces<HouseDetailDto>(StatusCodes.Status200OK);
 
-        app.MapDelete("/houses/{houseId:int}", async (int houseId, IHouseRepository repo) => 
+        app.MapDelete("/houses/{houseId:int}", [Authorize]async (int houseId, IHouseRepository repo) => 
         {
             if (await repo.Get(houseId) == null)
                 return Results.Problem($"House with Id {houseId} not found", statusCode: 404);
