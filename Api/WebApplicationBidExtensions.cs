@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniValidation;
 
@@ -5,7 +6,7 @@ public static class WebApplicationBidExtensions
 {
     public static void MapBidEndpoints(this WebApplication app)
     {
-        app.MapGet("/house/{houseId:int}/bids", async (int houseId, 
+        app.MapGet("/house/{houseId:int}/bids", [Authorize]async (int houseId, 
             IHouseRepository houseRepo, IBidRepository bidRepo) =>
         {
             if (await houseRepo.Get(houseId) == null)
@@ -14,7 +15,7 @@ public static class WebApplicationBidExtensions
             return Results.Ok(bids);
         }).ProducesProblem(404).Produces(StatusCodes.Status200OK);
 
-        app.MapPost("/house/{houseId:int}/bids", async (int houseId, [FromBody] BidDto dto, IBidRepository repo) => 
+        app.MapPost("/house/{houseId:int}/bids", [Authorize]async (int houseId, [FromBody] BidDto dto, IBidRepository repo) => 
         {   
             if (dto.HouseId != houseId)
                 return Results.Problem($"House Id of DTO {dto.HouseId} doesn't match with URL data {houseId}", 
