@@ -6,26 +6,26 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import Problem from "../types/problem";
 import { useEffect, useState } from "react";
 
-// const useFetchHouses = (): House[] => {
-//   const [allHouses, setAllHouses] = useState<House[]>([]);
+const useFetchHouses = (): House[] => {
+  const [allHouses, setAllHouses] = useState<House[]>([]);
 
-//   useEffect(() => {
-//     const fetchHouses = async () => {
-//       const rsp = await fetch(`${Config.baseApiUrl}/houses`);
-//       const houses = await rsp.json();
-//       setAllHouses(houses);
-//     };
-//     fetchHouses();
-//   }, []);
+  useEffect(() => {
+    const fetchHouses = async () => {
+      const rsp = await fetch(`${Config.baseApiUrl}/houses`);
+      const houses = await rsp.json();
+      setAllHouses(houses);
+    };
+    fetchHouses();
+  }, []);
 
-//   return allHouses;
-// };
-
-const useFetchHouses = () => {
-  return useQuery<House[], AxiosError>("houses", () =>
-    axios.get(`${Config.baseApiUrl}/houses`).then((resp) => resp.data)
-  );
+  return allHouses;
 };
+
+// const useFetchHouses = () => {
+//   return useQuery<House[], AxiosError>("houses", () =>
+//     axios.get(`${Config.baseApiUrl}/houses`).then((resp) => resp.data)
+//   );
+// };
 
 const useFetchHouse = (id: number) => {
   return useQuery<House, AxiosError>(["houses", id], () =>

@@ -7,9 +7,10 @@ import { House } from "../types/house";
 
 const HouseList = () => {
   const nav = useNavigate();
-  const { data, status, isSuccess } = useFetchHouses();
+  const data = useFetchHouses();
+  //const { data, status, isSuccess } = useFetchHouses();
 
-  if (!isSuccess) return <ApiStatus status={status}></ApiStatus>;
+  //if (!isSuccess) return <ApiStatus status={status}></ApiStatus>;
 
   return (
     <div>
