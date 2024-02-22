@@ -40,7 +40,7 @@ app.MapHouseEndpoints();
 app.MapBidEndpoints();
 app.UseRouting();
 app.UseAuthorization();
-app.UseEndpoints(e => e.MapDefaultControllerRoute());
+app.MapDefaultControllerRoute();
 app.MapFallbackToFile("index.html");
 
 app.Run();

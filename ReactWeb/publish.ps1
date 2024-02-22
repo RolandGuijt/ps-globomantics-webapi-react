@@ -1,3 +1,3 @@
-Remove-Item -Path ..\Api\wwwroot\static -Force -Recurse
+Remove-Item -Path ..\Api\wwwroot\assets -Force -Recurse
 npm run build
-xcopy build\ ..\Api\wwwroot\ /s /y /q
+xcopy dist\ ..\Api\wwwroot\ /s /y /q
