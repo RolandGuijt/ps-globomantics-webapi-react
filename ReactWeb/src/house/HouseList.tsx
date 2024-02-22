@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import ApiStatus from "../apiStatus";
 import { currencyFormatter } from "../config";
 import { useFetchHouses } from "../hooks/HouseHooks";
-import useFetchUser from "../hooks/UserHooks";
 import { House } from "../types/house";
+import useFetchUser from "../hooks/UserHooks";
+import ApiStatus from "../apiStatus";
 
 const HouseList = () => {
   const nav = useNavigate();
@@ -40,7 +40,8 @@ const HouseList = () => {
         </tbody>
       </table>
       {userClaims &&
-        userClaims.find((c) => c.type === "role" && c.value === "Admin") && (
+        userClaims.find((c) => c.type === "role" && c.value === "Admin")
+        && (
           <Link className="btn btn-primary" to="/house/add">
             Add
           </Link>

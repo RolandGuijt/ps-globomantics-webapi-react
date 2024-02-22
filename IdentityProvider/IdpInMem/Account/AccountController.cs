@@ -349,9 +349,6 @@ namespace IdentityServerHost.Quickstart.UI
                 var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
                 if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
                 {
-                    var providerSupportsSignout = await HttpContext.GetSchemeSupportsSignOutAsync(idp);
-                    if (providerSupportsSignout)
-                    {
                         if (vm.LogoutId == null)
                         {
                             // if there's no current logout context, we need to create one
@@ -362,7 +359,6 @@ namespace IdentityServerHost.Quickstart.UI
 
                         vm.ExternalAuthenticationScheme = idp;
                     }
-                }
             }
 
             return vm;
