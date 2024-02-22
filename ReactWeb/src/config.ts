@@ -1,4 +1,4 @@
-const Config = {
+const config = {
   baseApiUrl: "",
 };
 
@@ -8,5 +8,5 @@ const currencyFormatter = Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-export default Config;
+export default config;
 export { currencyFormatter };

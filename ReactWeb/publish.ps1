@@ -1,3 +1,3 @@
-Remove-Item -Path ..\ReactHost\wwwroot\static -Force -Recurse
+Remove-Item -Path ..\Api\wwwroot\assets -Force -Recurse
 npm run build
-xcopy build\ ..\ReactHost\wwwroot\ /s /y /q
+xcopy dist\ ..\Api\wwwroot\ /s /y /q

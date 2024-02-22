@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{024BF57B-B36F-4720-9F77-A36895678743}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityProvider", "IdentityProvider\IdentityProvider.csproj", "{76760CA0-C63E-4830-9FE3-D9EB92AE4D22}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactHost", "ReactHost\ReactHost.csproj", "{590AF145-118E-4896-886D-E5EFFF5DEFC8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{024BF57B-B36F-4720-9F77-A36895678743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{024BF57B-B36F-4720-9F77-A36895678743}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{024BF57B-B36F-4720-9F77-A36895678743}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{024BF57B-B36F-4720-9F77-A36895678743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76760CA0-C63E-4830-9FE3-D9EB92AE4D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76760CA0-C63E-4830-9FE3-D9EB92AE4D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76760CA0-C63E-4830-9FE3-D9EB92AE4D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76760CA0-C63E-4830-9FE3-D9EB92AE4D22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{590AF145-118E-4896-886D-E5EFFF5DEFC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{590AF145-118E-4896-886D-E5EFFF5DEFC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{590AF145-118E-4896-886D-E5EFFF5DEFC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{590AF145-118E-4896-886D-E5EFFF5DEFC8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EB13F540-944F-4B91-BB74-127660333E7B}
+	EndGlobalSection
+EndGlobal

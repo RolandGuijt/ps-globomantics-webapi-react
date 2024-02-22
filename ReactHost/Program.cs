@@ -55,11 +55,8 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseRouting();
 app.UseBff();
-app.UseEndpoints(e => 
-{
-    e.MapBffManagementEndpoints(); 
-    e.MapRemoteBffApiEndpoint("/api", "https://localhost:4000")
+app.MapBffManagementEndpoints();
+app.MapRemoteBffApiEndpoint("/api", "https://localhost:4000")
         .RequireAccessToken();
-});
 app.MapFallbackToFile("index.html");
 app.Run();
