@@ -40,8 +40,7 @@ const HouseList = () => {
         </tbody>
       </table>
       {userClaims &&
-        userClaims.find((c) => c.type === "role" && c.value === "Admin")
-        && (
+        userClaims.find((c) => c.type === "role" && c.value === "Admin") && (
           <Link className="btn btn-primary" to="/house/add">
             Add
           </Link>
