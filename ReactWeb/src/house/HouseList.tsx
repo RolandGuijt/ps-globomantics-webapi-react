@@ -1,16 +1,15 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import ApiStatus from "../apiStatus";
 import { currencyFormatter } from "../config";
 import { useFetchHouses } from "../hooks/HouseHooks";
 import { House } from "../types/house";
 
 const HouseList = () => {
   const nav = useNavigate();
-  const data = useFetchHouses();
-  //const { data, status, isSuccess } = useFetchHouses();
+  const { data, isPending } = useFetchHouses();
 
-  //if (!isSuccess) return <ApiStatus status={status}></ApiStatus>;
+  if (isPending) return <h2>Hold on</h2>;
+  console.log(data);
 
   return (
     <div>
